@@ -25,7 +25,7 @@ jobs:
           ECR_REGISTRY: 232901375965.dkr.ecr.us-east-1.amazonaws.com
         run: |
           echo "Logging in to Amazon ECR"
-          echo $AWS_ACCESS_KEY_ID | docker login --username AWS --password-stdin $ECR_REGISTRY
+          echo $AWS_ACCESS_KEY_ID | docker login --username AWS --password-stdin 
 
       - name: Tag and push MySQL Docker image to ECR
         run: |
