@@ -14,25 +14,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build MySQL Docker image
-        run: docker build -t mysql-image -f Dockerfile_mysql .
+#       - name: Build MySQL Docker image
+#         run: docker build -t mysql-image -f Dockerfile_mysql .
 
-      - name: Build application Docker image
-        run: docker build -t app-image -f Dockerfile .
+#       - name: Build application Docker image
+#         run: docker build -t app-image -f Dockerfile .
 
       - name: Login to Amazon ECR
-        env:
-          ECR_REGISTRY: 232901375965.dkr.ecr.us-east-1.amazonaws.com
-        run: |
-          echo "Logging in to Amazon ECR"
-          echo $AWS_ACCESS_KEY_ID | docker login --username AWS --password-stdin 
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          region: ${{ secrets.AWS_REGION }}
 
-      - name: Tag and push MySQL Docker image to ECR
-        run: |
-          docker tag mysql-image $ECR_REGISTRY/my-ecr-repo/mysql-image:${{ github.sha }}
-          docker push $ECR_REGISTRY/my-ecr-repo/mysql-image:${{ github.sha }}
+#       - name: Tag and push MySQL Docker image to ECR
+#         run: |
+#           docker tag mysql-image $ECR_REGISTRY/my-ecr-repo/mysql-image:${{ github.sha }}
+#           docker push $ECR_REGISTRY/my-ecr-repo/mysql-image:${{ github.sha }}
 
-      - name: Tag and push application Docker image to ECR
-        run: |
-          docker tag app-image $ECR_REGISTRY/my-ecr-repo/app-image:${{ github.sha }}
-          docker push $ECR_REGISTRY/my-ecr-repo/app-image:${{ github.sha }}
+#       - name: Tag and push application Docker image to ECR
+#         run: |
+#           docker tag app-image $ECR_REGISTRY/my-ecr-repo/app-image:${{ github.sha }}
+#           docker push $ECR_REGISTRY/my-ecr-repo/app-image:${{ github.sha }}
