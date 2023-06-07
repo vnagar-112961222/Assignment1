@@ -20,12 +20,6 @@ jobs:
       - name: Build application Docker image
         run: docker build -t app-image -f Dockerfile .
 
-      - name: Login to Amazon ECR
-        uses: aws-actions/amazon-ecr-login@v1
-        with:
-          registry: 232901375965.dkr.ecr.us-east-1.amazonaws.com/my-ecr-repo
-          region: us-east-1
-
       - name: Tag and push MySQL Docker image to ECR
         run: |
           docker tag mysql-image 232901375965.dkr.ecr.us-east-1.amazonaws.com/my-ecr-repo/mysql-image:$GITHUB_SHA
