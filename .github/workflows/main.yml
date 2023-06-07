@@ -32,8 +32,8 @@ jobs:
     - name: Build MySQL Docker image
       run: docker build -t mysql-image -f Dockerfile_mysql .
 
-    - name: Build application Docker image
-      run: docker build -t app-image -f Dockerfile .
+#     - name: Build application Docker image
+#       run: docker build -t app-image -f Dockerfile .
       
     - name: Tag and push MySQL Docker image to ECR
       env:
@@ -41,7 +41,6 @@ jobs:
        ECR_REPOSITORY: my-ecr-repo
        IMAGE_TAG: appv1.0
       run: |
-          cd docker/
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile_mysql .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
