@@ -21,11 +21,9 @@ jobs:
 #         run: docker build -t app-image -f Dockerfile .
 
       - name: Login to Amazon ECR
-        uses: aws-actions/amazon-ecr-login@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          region: ${{ secrets.AWS_REGION }}
+        run: |
+          aws ecr get-login-password --region us-east-1 | docker login -u AWS 232901375965.dkr.ecr.us-east-1.amazonaws.com/my-ecr-repo --password-stdin  
+
 
 #       - name: Tag and push MySQL Docker image to ECR
 #         run: |
