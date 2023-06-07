@@ -1,0 +1,34 @@
+name: Build and Push Docker Images
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build MySQL Docker image
+        run: docker build -t mysql-image -f Dockerfile.mysql .
+
+      - name: Build application Docker image
+        run: docker build -t app-image -f Dockerfile.app .
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Tag and push MySQL Docker image to ECR
+        run: |
+          docker tag mysql-image <your-ecr-repository-url>/mysql-image:$GITHUB_SHA
+          docker push <your-ecr-repository-url>/mysql-image:$GITHUB_SHA
+
+      - name: Tag and push application Docker image to ECR
+        run: |
+          docker tag app-image <your-ecr-repository-url>/app-image:$GITHUB_SHA
+          docker push <your-ecr-repository-url>/app-image:$GITHUB_SHA
