@@ -28,3 +28,19 @@ jobs:
          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
          AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
          AWS_REGION: us-east-1
+   
+    - name: Build MySQL Docker image
+      run: docker build -t mysql-image -f Dockerfile.mysql .
+
+    - name: Build application Docker image
+      run: docker build -t app-image -f Dockerfile.app .
+      
+    - name: Tag and push MySQL Docker image to ECR
+      run: |
+          docker tag mysql-image 232901375965.dkr.ecr.us-east-1.amazonaws.com/my-ecr-repo/mysql-image:$GITHUB_SHA
+          docker push 232901375965.dkr.ecr.us-east-1.amazonaws.com/my-ecr-repo/mysql-image:$GITHUB_SHA
+
+    - name: Tag and push application Docker image to ECR
+      run: |
+          docker tag app-image 232901375965.dkr.ecr.us-east-1.amazonaws.com/my-ecr-repo/app-image:$GITHUB_SHA
+          docker push 232901375965.dkr.ecr.us-east-1.amazonaws.com/my-ecr-repo/app-image:$GITHUB_SHA
