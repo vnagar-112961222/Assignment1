@@ -15,10 +15,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build MySQL Docker image
-        run: docker build -t mysql-image -f Dockerfile.mysql .
+        run: docker build -t mysql-image -f Dockerfile_mysql .
 
       - name: Build application Docker image
-        run: docker build -t app-image -f Dockerfile.app .
+        run: docker build -t app-image -f Dockerfile .
 
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
